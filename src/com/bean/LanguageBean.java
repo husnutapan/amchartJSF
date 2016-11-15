@@ -8,6 +8,7 @@ import javax.faces.bean.SessionScoped;
 
 import com.google.gson.Gson;
 import com.model.Language;
+import com.otherUtility.ColorHexCode;
 
 @ManagedBean
 @SessionScoped
@@ -18,13 +19,18 @@ public class LanguageBean {
 	private String jsonString;
 
 	public LanguageBean() {
+
+
+		System.out.println("color:" + ColorHexCode.hexCodes.get("Gray"));
+
 		languages = new ArrayList<>();
-		Language language = new Language("Husnu", 5000, "#7F8DA9", "https://www.amcharts.com/lib/images/faces/A04.png");
-		Language language1 = new Language("Husnu1", 6000, "#7F8DA9",
+		Language language = new Language("Husnu TAPAN", 5000, ColorHexCode.hexCodes.get("Gray"),
 				"https://www.amcharts.com/lib/images/faces/A04.png");
-		Language language2 = new Language("Husnu2", 7000, "#7F8DA9",
+		Language language1 = new Language("Enes ISMAILOGLU", 6000, ColorHexCode.hexCodes.get("Red"),
 				"https://www.amcharts.com/lib/images/faces/A04.png");
-		Language language3 = new Language("Husnu3", 8000, "#7F8DA9",
+		Language language2 = new Language("Mehmet KERSE", 7000, ColorHexCode.hexCodes.get("Green"),
+				"https://www.amcharts.com/lib/images/faces/A04.png");
+		Language language3 = new Language("Oguzhan YILMAZ", 8000, ColorHexCode.hexCodes.get("Blue"),
 				"https://www.amcharts.com/lib/images/faces/A04.png");
 
 		languages.add(language);
