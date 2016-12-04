@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>AmchartJS</title>
+
+	<style>
+#chartdiv {
+	width: 100%;
+	height: 500px;
+}
+</style>
+
+	<!-- Resources -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+	<script src="https://www.amcharts.com/lib/3/gauge.js"></script>
+	<script
+		src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+	<link rel="stylesheet"
+		href="https://www.amcharts.com/lib/3/plugins/export/export.css"
+		type="text/css" media="all" />
+	<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+
+
+</h:head>
+<h:body>
+	<h:form id="form">
+
+		<div id="chartdiv"></div>
+		<p:inputText id="dataStr" value="#{gaugeBean1.jsonData}"
+			style="display:none;" />
+
+	</h:form>
+
+	<script>
+		var json_data = JSON
+				.parse(document.getElementById("form:dataStr").value);
+
+		var gaugeChart = AmCharts.makeChart("chartdiv", {
+			"type" : "gauge",
+			"theme" : "light",
+			"axes" : [ {
+				"axisThickness" : 1,
+				"axisAlpha" : 0.2,
+				"tickAlpha" : 0.2,
+				"valueInterval" : 20,
+				"bands" : json_data,
+				"bottomText" : "0 km/h",
+				"bottomTextYOffset" : -20,
+				"endValue" : 220
+			} ],
+			"arrows" : [ {} ],
+			"export" : {
+				"enabled" : true
+			}
+		});
+
+		setInterval(randomValue, 2000);
+
+		// set random value
+		function randomValue() {
+			var previousEvent = false;
+			$(document).mousemove(
+					function(evt) {
+						evt.time = Date.now();
+						var res;
+						res = makeVelocityCalculator(evt, previousEvent);
+						previousEvent = evt;
+						res = res * 50;
+						if (gaugeChart) {
+							if (gaugeChart.arrows) {
+								if (gaugeChart.arrows[0]) {
+									if (gaugeChart.arrows[0].setValue) {
+										gaugeChart.arrows[0].setValue(res);
+										gaugeChart.axes[0].setBottomText(res
+												+ " km/h");
+									}
+								}
+							}
+						}
+
+					});
+
+		}
+
+		/*  jQUERY*/
+
+		function makeVelocityCalculator(e_init, e) {
+			var x = e_init.clientX, new_x, new_y, new_t, x_dist, y_dist, interval, velocity, y = e_init.clientY, t;
+			if (e === false) {
+				return 0;
+			}
+			t = e.time;
+			new_x = e.clientX;
+			new_y = e.clientY;
+			new_t = Date.now();
+			x_dist = new_x - x;
+			y_dist = new_y - y;
+			interval = new_t - t;
+			// update values:
+			x = new_x;
+			y = new_y;
+			velocity = Math.sqrt(x_dist * x_dist + y_dist * y_dist) / interval;
+			return velocity;
+		}
+	</script>
+</h:body>
+</html>
