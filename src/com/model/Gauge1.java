@@ -1,6 +1,8 @@
 package com.model;
 
-public class Gauge1 {
+import java.io.Serializable;
+
+public class Gauge1 implements Serializable {
 	private int id;
 	private String color;
 	private int endValue;

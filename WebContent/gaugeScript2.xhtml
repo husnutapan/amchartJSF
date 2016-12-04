@@ -17,8 +17,6 @@
 </style>
 
 	<!-- Resources -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 	<script src="https://www.amcharts.com/lib/3/gauge.js"></script>
 	<script
@@ -31,13 +29,16 @@
 </h:head>
 <h:body>
 	<h:form id="form">
-
 		<div id="chartdiv"></div>
-		<p:inputText id="dataStr" value="#{gaugeBean1.jsonData}"
+		<p:inputText id="dataStr" value="#{gaugeBean2.jsonData}"
 			style="display:none;" />
 
-	</h:form>
+		<p:inputText id="speedText" value="#{gaugeBean2.speed}" />
+		<p:poll interval="2" process="@this" update="speedText" />
 
+
+	</h:form>
+	<!-- Chart code -->
 	<script>
 		var json_data = JSON
 				.parse(document.getElementById("form:dataStr").value);
@@ -61,53 +62,23 @@
 			}
 		});
 
-		setInterval(randomValue, 2000);
+		setInterval(randomValue, 0);
 
 		// set random value
 		function randomValue() {
-			var previousEvent = false;
-			$(document).mousemove(
-					function(evt) {
-						evt.time = Date.now();
-						var res;
-						res = makeVelocityCalculator(evt, previousEvent);
-						previousEvent = evt;
-						res = res * 50;
-						if (gaugeChart) {
-							if (gaugeChart.arrows) {
-								if (gaugeChart.arrows[0]) {
-									if (gaugeChart.arrows[0].setValue) {
-										gaugeChart.arrows[0].setValue(res);
-										gaugeChart.axes[0].setBottomText(res
-												+ " km/h");
-									}
-								}
-							}
+			var speed_data = JSON.parse(document
+					.getElementById("form:speedText").value);
+			if (gaugeChart) {
+				if (gaugeChart.arrows) {
+					if (gaugeChart.arrows[0]) {
+						if (gaugeChart.arrows[0].setValue) {
+							gaugeChart.arrows[0].setValue(speed_data);
+							gaugeChart.axes[0].setBottomText(speed_data
+									+ " km/h");
 						}
-
-					});
-
-		}
-
-		/*  jQUERY*/
-
-		function makeVelocityCalculator(e_init, e) {
-			var x = e_init.clientX, new_x, new_y, new_t, x_dist, y_dist, interval, velocity, y = e_init.clientY, t;
-			if (e === false) {
-				return 0;
+					}
+				}
 			}
-			t = e.time;
-			new_x = e.clientX;
-			new_y = e.clientY;
-			new_t = Date.now();
-			x_dist = new_x - x;
-			y_dist = new_y - y;
-			interval = new_t - t;
-			// update values:
-			x = new_x;
-			y = new_y;
-			velocity = Math.sqrt(x_dist * x_dist + y_dist * y_dist) / interval;
-			return velocity;
 		}
 	</script>
 </h:body>
