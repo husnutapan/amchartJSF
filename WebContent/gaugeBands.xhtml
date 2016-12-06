@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>AmchartJS</title>
+
+	<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+	<script src="https://www.amcharts.com/lib/3/gauge.js"></script>
+	<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+	<style>
+#chartdiv {
+	width: 100%;
+	height: 500px;
+}
+</style>
+
+
+</h:head>
+<h:body>
+	<h:form id="form">
+		<div id="chartdiv"></div>
+
+		<p:inputText id="dataStr" value="#{gaugeBandsBean.jsonString}" />
+
+	</h:form>
+
+	<script>
+		var json_data = JSON
+				.parse(document.getElementById("form:dataStr").value);
+
+		var gaugeChart = AmCharts.makeChart("chartdiv", {
+			"type" : "gauge",
+			"theme" : "light",
+			"axes" : [ {
+				"axisAlpha" : 0,
+				"tickAlpha" : 0,
+				"labelsEnabled" : false,
+				"startValue" : 0,
+				"endValue" : 100,
+				"startAngle" : 0,
+				"endAngle" : 270,
+				"bands" :json_data
+			} ],
+			"allLabels" : [ {
+				"text" : "First option",
+				"x" : "49%",
+				"y" : "5%",
+				"size" : 15,
+				"bold" : true,
+				"color" : "#84b761",
+				"align" : "right"
+			}, {
+				"text" : "Second option",
+				"x" : "49%",
+				"y" : "15%",
+				"size" : 15,
+				"bold" : true,
+				"color" : "#fdd400",
+				"align" : "right"
+			}, {
+				"text" : "Third option",
+				"x" : "49%",
+				"y" : "24%",
+				"size" : 15,
+				"bold" : true,
+				"color" : "#cc4748",
+				"align" : "right"
+			}, {
+				"text" : "Fourth option",
+				"x" : "49%",
+				"y" : "33%",
+				"size" : 15,
+				"bold" : true,
+				"color" : "#67b7dc",
+				"align" : "right"
+			} ],
+			"export" : {
+				"enabled" : true
+			}
+		});
+
+		gaugeChart.addListener("init", function() {
+			console.log("Initiated!");
+			// adjust green band
+			gaugeChart.axes[0].bands[1].setEndValue(100);
+			gaugeChart.axes[0].bands[1].setStartValue(15);
+			// adjust yellow band
+			gaugeChart.axes[0].bands[3].setEndValue(60);
+			// adjust red band
+			gaugeChart.axes[0].bands[5].setEndValue(50);
+			gaugeChart.axes[0].bands[5].setStartValue(10);
+			// adjust blue band
+			gaugeChart.axes[0].bands[7].setEndValue(30);
+		});
+	</script>
+</h:body>
+</html>
