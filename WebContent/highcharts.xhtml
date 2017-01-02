@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>AmchartJS</title>
+
+	<style>
+#chartdiv {
+	width: 100%;
+	height: 500px;
+}
+</style>
+	<!-- Resources -->
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+		google.load("jquery", "1.7.1");
+	</script>
+	<script type="text/javascript"
+		src="http://code.highcharts.com/highcharts.js"></script>
+
+</h:head>
+<h:body>
+	<h:form id="form">
+
+		<div id="content">
+			<div style="height: 120px;" id="container"></div>
+		</div>
+	</h:form>
+
+	<script>
+		$(function() {
+			$(document).ready(
+					function() {
+						var chart = new Highcharts.Chart({
+							chart : {
+								renderTo : 'container',
+								defaultSeriesType : 'bar',
+								plotBorderWidth : 2,
+								plotBackgroundColor : '#F5E6E6',
+								plotBorderColor : '#D8D8D8',
+								plotShadow : true,
+								spacingBottom : 43,
+								width : 350
+							},
+							credits : {
+								enabled : false
+							},
+							xAxis : {
+								labels : {
+									enabled : false
+								},
+								tickLength : 0
+							},
+							title : {
+								text : null
+							},
+							legend : {
+								enabled : false
+							},
+							yAxis : {
+								title : {
+									text : null
+								},
+								labels : {
+									y : 20
+								},
+								min : 0,
+								max : 100,
+								tickInterval : 20,
+								minorTickInterval : 10,
+								tickWidth : 1,
+								tickLength : 8,
+								minorTickLength : 5,
+								minorTickWidth : 1,
+								minorGridLineWidth : 0
+							},
+							plotOptions : {},
+							series : [ {
+								borderColor : '#7070B8',
+								borderRadius : 3,
+								borderWidth : 1,
+								color : {
+									linearGradient : {
+										x1 : 0,
+										y1 : 0,
+										x2 : 1,
+										y2 : 0
+									},
+									stops : [ //[ 0.35, '#7070B8' ], [0, '#D69999'],
+									[ 0.3, '#B84D4D' ], [ 0.45, '#7A0000' ],
+											[ 0.55, '#7A0000' ],
+											[ 0.7, '#B84D4D' ],
+											[ 1, '#D69999' ] ]
+								},
+								pointWidth : 50,
+								data : [ 48.9 ]
+							} ]
+						});
+					});
+
+		});
+	</script>
+</h:body>
+</html>
